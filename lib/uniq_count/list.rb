@@ -7,7 +7,13 @@ module UniqCount
     def initialize
       @global_wal = Queue.new
       @table = {}
-      comparator = ->(item){item[:key2_uniq_count]}
+      comparator = ->(item1, item2){
+        if item1[:key2_uniq_count] == item2[:key2_uniq_count]
+          item1[:key2_count] <=> item2[:key2_count]
+        else
+          item1[:key2_uniq_count] <=> item2[:key2_uniq_count]
+        end
+      }
       @heap = Heap.new(comparator)
     end
 

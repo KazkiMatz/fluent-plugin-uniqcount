@@ -5,7 +5,7 @@ class HeapTest < Test::Unit::TestCase
   end
 
   def test_heap_operations
-    comparator = ->(item){ item[:count] }
+    comparator = ->(item1, item2){ item1[:count] <=> item2[:count] }
     h = UniqCount::Heap.new(comparator)
 
     assert_equal nil, h.pick
@@ -42,7 +42,7 @@ class HeapTest < Test::Unit::TestCase
   end
 
   def test_heap_sort
-    comparator = ->(item){ item[:count] }
+    comparator = ->(item1, item2){ item1[:count] <=> item2[:count] }
     h = UniqCount::Heap.new(comparator)
 
     (0..49).to_a.shuffle.each{|i|h.add({count: i})}
@@ -64,7 +64,7 @@ class HeapTest < Test::Unit::TestCase
   end
 
   def test_heap_add
-    comparator = ->(item){ item[:count] }
+    comparator = ->(item1, item2){ item1[:count] <=> item2[:count] }
     h = UniqCount::Heap.new(comparator)
 
     items = []
@@ -87,7 +87,7 @@ class HeapTest < Test::Unit::TestCase
   end
 
   def test_heap_update
-    comparator = ->(item){ item[:count] }
+    comparator = ->(item1, item2){ item1[:count] <=> item2[:count] }
     h = UniqCount::Heap.new(comparator)
 
     items = []
@@ -122,7 +122,7 @@ class HeapTest < Test::Unit::TestCase
   end
 
   def test_heap_item_identification
-    comparator = ->(item){ item[:count] }
+    comparator = ->(item1, item2){ item1[:count] <=> item2[:count] }
     h = UniqCount::Heap.new(comparator)
 
     a = {count: 0}

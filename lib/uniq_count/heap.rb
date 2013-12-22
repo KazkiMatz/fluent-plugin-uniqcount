@@ -95,7 +95,7 @@ module UniqCount
       current = @heap[i]
       return unless j = parent_idx(i)
       parent = @heap[j]
-      if @comparator[parent] < @comparator[current]
+      if @comparator[parent, current] < 0
         swap(i, j)
         adjust_parent(j)
         true
@@ -108,11 +108,11 @@ module UniqCount
       current = @heap[i]
       j, child = children_idx(i).map{|j|
         [j, @heap[j]]
-      }.max_by{|item|
-        @comparator[item.last]
+      }.max{|item1, item2|
+        @comparator[item1.last, item2.last]
       }
 
-      if child && @comparator[child] > @comparator[current]
+      if child && @comparator[child, current] > 0
         swap(i, j)
         adjust_children(j)
         true
