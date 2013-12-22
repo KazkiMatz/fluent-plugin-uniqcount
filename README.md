@@ -3,7 +3,7 @@ fluent-plugin-uniqcount
 
 A fluent-output plugin which offers Count Distinct/Aggregation that is mostly equivalent to:
 
-    SELECT key1, COUNT(DISTINCT(key2)) AS key2_count FROM records WHERE time BETWEEN T1 AND T2 GROUP BY key1 ORDER BY key2_count DESC LIMIT 0, N;
+    SELECT key1, COUNT(key2) AS key2_count, COUNT(DISTINCT(key2)) AS key2_uniq_count FROM records WHERE time BETWEEN T1 AND T2 GROUP BY key1 ORDER BY key2_count DESC LIMIT 0, N;
 
 in SQL
 
