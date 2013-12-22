@@ -13,7 +13,12 @@ module UniqCount
 
     def get(n)
       @heap.first(n).each_with_index.map {|item, i|
-        {'key1' => item[:key1], 'rank' => i, 'key2_uniq_count' => item[:key2_uniq_count]}
+        {
+          'key1' => item[:key1],
+          'rank' => i,
+          'key2_count' => item[:key2_count],
+          'key2_uniq_count' => item[:key2_uniq_count],
+        }
       }
     end
 
@@ -30,6 +35,7 @@ module UniqCount
             key1: key1,
             wal: [],
             key2_appearances: {},
+            key2_count: 0,
             key2_uniq_count: 0,
           }
           @heap.add(@table[key1])
@@ -42,6 +48,9 @@ module UniqCount
           key2_appearances[key2] = []
           key1_table[:key2_uniq_count] += 1
         end
+
+        key1_table[:key2_count] += 1
+
         key2_appearances[key2] << time
 
         @heap.update(key1_table)
@@ -60,6 +69,8 @@ module UniqCount
           key2_appearances.delete(key2)
           key1_table[:key2_uniq_count] -= 1
         end
+
+        key1_table[:key2_count] -= 1
 
         if key1_table[:key2_uniq_count] == 0
           @heap.remove(key1_table)
