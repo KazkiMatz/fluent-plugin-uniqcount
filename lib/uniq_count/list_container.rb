@@ -10,11 +10,15 @@ module UniqCount
       @queue = Queue.new
       @list = List.new
       @mutex = Mutex.new
-      @flashed_at = 0
+      @flashed_at = nil
     end
 
     def need_flush?(now)
-      now - @flashed_at >= @config['out_interval']
+      @flashed_at.nil? or now - @flashed_at >= @config['out_interval']
+    end
+
+    def last_flash
+      @flashed_at
     end
 
     def insert(es)
