@@ -39,7 +39,6 @@ module UniqCount
         unless @table[key1]
           @table[key1] = {
             key1: key1,
-            wal: [],
             key2_appearances: {},
             key2_count: 0,
             key2_uniq_count: 0,

@@ -22,7 +22,7 @@ module UniqCount
       es.each do |time, record|
         time = @config['time'] ? record[@config['time']] : time
         key1 = record[@config['key1']]
-        key2 = record[@config['key2']]
+        key2 = @config['key2'] ? record[@config['key2']] : nil
 
         items << [time, key1, key2] if time && key1 && key2
       end
