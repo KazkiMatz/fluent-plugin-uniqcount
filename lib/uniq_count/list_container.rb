@@ -1,11 +1,15 @@
 # -*- coding: utf-8 -*-
 
+require 'securerandom'
 require_relative 'queue'
 require_relative 'list'
 
 module UniqCount
   class ListContainer
+    attr_reader :_id
+
     def initialize(config)
+      @_id = SecureRandom.hex
       @config = config
       @queue = Queue.new
       @list = List.new
@@ -54,10 +58,17 @@ module UniqCount
     def get
       @mutex.synchronize {
         [@config['out_tag'], {
+          '_id' => @_id,
           'label' => @config['label'],
           'ranks' => @list.get(@config['out_num']),
           'at' => @flashed_at,
         }]
+      }
+    end
+
+    def clear(key1)
+      @mutex.synchronize {
+        @list.clear(key1)
       }
     end
   end

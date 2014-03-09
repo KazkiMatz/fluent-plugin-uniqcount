@@ -85,5 +85,12 @@ module UniqCount
         end
       end
     end
+
+    def clear(key1)
+      @global_wal.clear(key1)
+      key1_table = @table[key1]
+      @heap.remove(key1_table)
+      @table.delete(key1)
+    end
   end
 end

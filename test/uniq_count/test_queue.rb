@@ -1,4 +1,4 @@
-# -*- coding: utf-8 -*-
+require 'helper'
 
 class QueueTest < Test::Unit::TestCase
   def setup

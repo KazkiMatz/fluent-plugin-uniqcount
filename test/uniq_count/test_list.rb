@@ -1,4 +1,4 @@
-# -*- coding: utf-8 -*-
+require 'helper'
 
 class ListTest < Test::Unit::TestCase
   def setup
@@ -136,6 +136,45 @@ class ListTest < Test::Unit::TestCase
     assert_equal 1, top_n[0]['key2_uniq_count']
 
     l.shift(5)
+    top_n = l.get(10)
+    assert_equal 0, top_n.length
+  end
+
+  def test_count_clear
+    l = UniqCount::List.new
+    assert_equal [], l.get(5)
+
+    l.add([[1, 'foo', 1], [1, 'foo', 1]])
+    top_n = l.get(10)
+    assert_equal 1, top_n.length
+    assert_equal 0, top_n[0]['rank']
+    assert_equal 'foo', top_n[0]['key1']
+    assert_equal 2, top_n[0]['key2_count']
+    assert_equal 1, top_n[0]['key2_uniq_count']
+
+    l.add([[1, 'bar', 1], [2, 'bar', 1], [2, 'bar', 2]])
+    top_n = l.get(10)
+    assert_equal 2, top_n.length
+    assert_equal 0, top_n[0]['rank']
+    assert_equal 'bar', top_n[0]['key1']
+    assert_equal 3, top_n[0]['key2_count']
+    assert_equal 2, top_n[0]['key2_uniq_count']
+    assert_equal 1, top_n[1]['rank']
+    assert_equal 'foo', top_n[1]['key1']
+    assert_equal 2, top_n[1]['key2_count']
+    assert_equal 1, top_n[1]['key2_uniq_count']
+
+    l.clear('bar')
+
+    top_n = l.get(10)
+    assert_equal 1, top_n.length
+    assert_equal 0, top_n[0]['rank']
+    assert_equal 'foo', top_n[0]['key1']
+    assert_equal 2, top_n[0]['key2_count']
+    assert_equal 1, top_n[0]['key2_uniq_count']
+
+    l.shift(2)
+
     top_n = l.get(10)
     assert_equal 0, top_n.length
   end

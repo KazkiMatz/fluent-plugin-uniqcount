@@ -29,6 +29,12 @@ module UniqCount
       @data.shift(length(till))
     end
 
+    def clear(key1)
+      @data.delete_if {|time, _key1, _key2|
+        key1 == _key1
+      }
+    end
+
     protected
 
     def head_time
