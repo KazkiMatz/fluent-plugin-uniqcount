@@ -28,7 +28,7 @@ module UniqCount
         key1 = record[@config['key1']]
         key2 = @config['key2'] ? record[@config['key2']] : nil
 
-        items << [time, key1, key2] if time && key1 && key2
+        items << [time, key1, key2] if time && key1
       end
 
       items.sort_by!(&:first)
