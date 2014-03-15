@@ -5,7 +5,6 @@ module UniqCount
     def initialize(comparator)
       @heap = []
       @refs = {}
-      @refs.compare_by_identity
       @comparator = comparator
     end
 
@@ -31,32 +30,32 @@ module UniqCount
     end
 
     def add(item)
-      if @refs[item]
+      if @refs[item.object_id]
         raise StandardError
       end
       @heap << item
       i = @heap.length - 1
-      @refs[item] = i
+      @refs[item.object_id] = i
       adjust_parent(i)
     end
 
     def pop
       item = @heap.pop
-      unless @refs.delete(item)
+      unless @refs.delete(item.object_id)
         raise StandardError
       end
       item
     end
 
     def update(item)
-      unless i = @refs[item]
+      unless i = @refs[item.object_id]
         raise StandardError
       end
       adjust_parent(i) || adjust_children(i)
     end
 
     def remove(item)
-      unless i = @refs[item]
+      unless i = @refs[item.object_id]
         raise StandardError
       end
       j = @heap.length - 1
@@ -125,7 +124,7 @@ module UniqCount
       return if parent_idx == child_idx
       parent, child = @heap[parent_idx], @heap[child_idx]
       @heap[parent_idx], @heap[child_idx] = child, parent
-      @refs[parent], @refs[child] = child_idx, parent_idx
+      @refs[parent.object_id], @refs[child.object_id] = child_idx, parent_idx
     end
 
     def parent_idx(i)
