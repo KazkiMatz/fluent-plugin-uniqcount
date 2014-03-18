@@ -61,7 +61,7 @@ module UniqCount
           '_id' => @_id,
           'label' => @config['label'],
           'ranks' => @list.get(@config['out_num']),
-          'at' => @flashed_at,
+          'at' => @flashed_at - @config['offset'],
         }]
       }
     end
